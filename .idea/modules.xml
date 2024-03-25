@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/getting-started-kafka.iml" filepath="$PROJECT_DIR$/.idea/getting-started-kafka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/producers.iml" filepath="$PROJECT_DIR$/producers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/producers.main.iml" filepath="$PROJECT_DIR$/.idea/modules/producers.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/producers.test.iml" filepath="$PROJECT_DIR$/.idea/modules/producers.test.iml" />
+    </modules>
+  </component>
+</project>
