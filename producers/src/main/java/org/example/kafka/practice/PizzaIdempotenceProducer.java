@@ -20,23 +20,10 @@ import java.util.concurrent.ExecutionException;
 --property print.key=true \
 --property print.value=true \
 --property print.partition=true
-
-[2024-03-26 19:43:29,658] INFO [GroupCoordinator 0]: Dynamic member with unknown member id joins group group_01 in Stable state. Created a new member id console-consumer-ad4ece92-df31-4316-b9bc-c617af245a17 and request the member to rejoin with this id. (kafka.coordinator.group.GroupCoordinator)
-[2024-03-26 19:43:29,660] INFO [GroupCoordinator 0]: Preparing to rebalance group group_01 in state PreparingRebalance with old generation 2 (__consumer_offsets-45) (reason: Adding new member console-consumer-ad4ece92-df31-4316-b9bc-c617af245a17 with group instance id None) (kafka.coordinator.group.GroupCoordinator)
-[2024-03-26 19:43:30,961] INFO [GroupCoordinator 0]: Stabilized group group_01 generation 3 (__consumer_offsets-45) with 3 members (kafka.coordinator.group.GroupCoordinator)
-[2024-03-26 19:43:30,962] INFO [GroupCoordinator 0]: Assignment received from leader console-consumer-b5938c29-313e-4b56-abbd-e8266ea8d86b for group group_01 for generation 3. The group has 3 members, 0 of which are static. (kafka.coordinator.group.GroupCoordinator)
-
-
- batch.size = 16384 (단일 배치 사이즈)
- buffer.memory = 33554432 (RecordAccumulator의 전체 메모리 사이즈)
- max.in.flight.requests.per.connection = 5 (토픽의 파티션이 담을 수 있는 배치의 수)
- max.request.size = 1048576
-
-
 */
-public class PizzaProducer {
+public class PizzaIdempotenceProducer {
 
-    private static final Logger logger = LoggerFactory.getLogger(PizzaProducer.class);
+    private static final Logger logger = LoggerFactory.getLogger(PizzaIdempotenceProducer.class);
 
     public static void main(String[] args) {
         String topicName = "pizza-topic";
@@ -45,9 +32,12 @@ public class PizzaProducer {
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
+        // Idempotence로 가지 않는다.
+        properties.setProperty(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "6");
         properties.setProperty(ProducerConfig.ACKS_CONFIG, "0");
-        properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, "32000");
-        properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "20");
+        properties.setProperty(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");
+        // Exception in thread "main" org.apache.kafka.common.config.ConfigException: Must set acks to all in order to use the idempotent producer. Otherwise we cannot guarantee idempotence.
 
         KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(properties);
         sendPizzaMessage(kafkaProducer, topicName, -1, 100, 1000, 100, false);
