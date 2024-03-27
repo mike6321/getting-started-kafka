@@ -12,3 +12,7 @@
 *.probe
 
 *.class
+
+consumers/.gradle/8.2/dependencies-accessors/gc.properties
+
+*.properties
