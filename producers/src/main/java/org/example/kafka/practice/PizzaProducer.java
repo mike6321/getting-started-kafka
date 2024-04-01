@@ -45,12 +45,12 @@ public class PizzaProducer {
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        properties.setProperty(ProducerConfig.ACKS_CONFIG, "0");
-        properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, "32000");
-        properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "20");
+//        properties.setProperty(ProducerConfig.ACKS_CONFIG, "0");
+//        properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, "32000");
+//        properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "20");
 
         KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(properties);
-        sendPizzaMessage(kafkaProducer, topicName, -1, 100, 1000, 100, false);
+        sendPizzaMessage(kafkaProducer, topicName, -1, 500, 0, 0, false);
         kafkaProducer.close();
     }
 

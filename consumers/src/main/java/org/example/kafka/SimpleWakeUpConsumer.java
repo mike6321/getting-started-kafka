@@ -15,13 +15,18 @@ import java.util.Properties;
 
 /**
  * pro-actively leaving the group
+ *
+ * rebalancing
+ * [2024-04-01 20:32:21,586] INFO [GroupCoordinator 0]: Assignment received from leader consumer-group-01-1-18d0c1d9-0db3-468e-8a51-6849af39ad0e for group group-01 for generation 10. The group has 1 members, 0 of which are static. (kafka.coordinator.group.GroupCoordinator)
+ * 2024-04-01 20:33:54,602] INFO [GroupCoordinator 0]: Assignment received from leader consumer-group-01-1-18d0c1d9-0db3-468e-8a51-6849af39ad0e for group group-01 for generation 11. The group has 2 members, 0 of which are static. (kafka.coordinator.group.GroupCoordinator)
+ * [2024-04-01 20:35:03,622] INFO [GroupCoordinator 0]: Assignment received from leader consumer-group-01-1-18d0c1d9-0db3-468e-8a51-6849af39ad0e for group group-01 for generation 12. The group has 3 members, 0 of which are static. (kafka.coordinator.group.GroupCoordinator)
  * */
 public class SimpleWakeUpConsumer {
 
     private static final Logger logger = LoggerFactory.getLogger(SimpleWakeUpConsumer.class);
 
     public static void main(String[] args) {
-        String topicName ="simple-topic";
+        String topicName ="pizza-topic";
 
         Properties properties = new Properties();
         properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
@@ -48,7 +53,7 @@ public class SimpleWakeUpConsumer {
             while (true) {
                 ConsumerRecords<String, String> consumerRecords = kafkaConsumer.poll(Duration.ofMillis(1000));
                 for (ConsumerRecord record : consumerRecords) {
-                    logger.info("key: {}, value: {}", record.key(), record.value());
+                    logger.info("key: {}, value: {}, partition: {}, offset: {}", record.key(), record.value(), record.partition(), record.offset());
                 }
 
             }
