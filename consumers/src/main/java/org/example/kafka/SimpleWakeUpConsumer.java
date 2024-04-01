@@ -48,7 +48,7 @@ public class SimpleWakeUpConsumer {
          * group-01-static pizza-topic     2          52              54              2               3-2060655c-fa61-44b9-81e2-f357697734c2 /127.0.0.1      consumer-group-01-static-3
          *
          * 45초 이후에 3번 컨슈머 재기동
-         * 
+         *
          * 리밸런싱 발생
          * [2024-04-01 21:24:34,371] INFO [GroupCoordinator 0]: Preparing to rebalance group group-01-static in state PreparingRebalance with old generation 3 (__consumer_offsets-46) (reason: removing member 3-2060655c-fa61-44b9-81e2-f357697734c2 on heartbeat expiration) (kafka.coordinator.group.GroupCoordinator)
          * [2024-04-01 21:24:36,567] INFO [GroupCoordinator 0]: Stabilized group group-01-static generation 4 (__consumer_offsets-46) with 2 members (kafka.coordinator.group.GroupCoordinator)
