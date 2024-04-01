@@ -50,7 +50,7 @@ public class PizzaProducer {
 //        properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "20");
 
         KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(properties);
-        sendPizzaMessage(kafkaProducer, topicName, -1, 500, 0, 0, false);
+        sendPizzaMessage(kafkaProducer, topicName, -1, 1000, 0, 0, false);
         kafkaProducer.close();
     }
 
