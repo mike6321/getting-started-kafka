@@ -38,6 +38,23 @@ public class ConsumeAssign {
      * group-assign    topic-p3-t1     1          1               1               0               consumer-group-assign-1-a4a6f5f6-5620-44ed-a6cb-ed21b1fd3e3c /127.0.0.1      consumer-group-assign-1
      * group-assign    topic-p3-t1     2          2               2               0               consumer-group-assign-1-d62a438e-93a9-4919-9eb3-1fea7f39be35 /127.0.0.1      consumer-group-assign-1
      * group-assign    topic-p3-t2     2          2               2               0               consumer-group-assign-1-d62a438e-93a9-4919-9eb3-1fea7f39be35 /127.0.0.1      consumer-group-assign-1
+     *
+     * assign strategy : CooperativeStickyAssignor
+     *  Assigned partitions:                       [topic-p3-t1-0, topic-p3-t2-1, topic-p3-t2-0, topic-p3-t1-2, topic-p3-t1-1, topic-p3-t2-2]
+     *  Current owned partitions:                  []
+     *  Added partitions (assigned - owned):       [topic-p3-t1-0, topic-p3-t2-1, topic-p3-t2-0, topic-p3-t1-2, topic-p3-t1-1, topic-p3-t2-2]
+     *  Revoked partitions (owned - assigned):     []
+     *
+     * 컨슈머 추가 등록
+     * 	Assigned partitions:                       [topic-p3-t1-0, topic-p3-t1-2, topic-p3-t1-1]
+     * 	Current owned partitions:                  [topic-p3-t1-0, topic-p3-t2-1, topic-p3-t2-0, topic-p3-t1-2, topic-p3-t1-1, topic-p3-t2-2]
+     * 	Added partitions (assigned - owned):       []
+     * 	Revoked partitions (owned - assigned):     [topic-p3-t2-1, topic-p3-t2-0, topic-p3-t2-2]
+     *
+     * 	Assigned partitions:                       [topic-p3-t1-0, topic-p3-t1-2, topic-p3-t1-1]
+     * 	Current owned partitions:                  [topic-p3-t1-0, topic-p3-t1-2, topic-p3-t1-1]
+     * 	Added partitions (assigned - owned):       []
+     * 	Revoked partitions (owned - assigned):     []
      * */
     public static void main(String[] args) {
         Properties properties = new Properties();
@@ -45,7 +62,8 @@ public class ConsumeAssign {
         properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "group-assign");
-        properties.setProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, RoundRobinAssignor.class.getName());
+//        properties.setProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, RoundRobinAssignor.class.getName());
+        properties.setProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, CooperativeStickyAssignor.class.getName());
 
         KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<>(properties);
         kafkaConsumer.subscribe(List.of("topic-p3-t1", "topic-p3-t2"));
